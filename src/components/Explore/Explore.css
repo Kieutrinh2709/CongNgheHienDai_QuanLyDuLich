@@ -1,0 +1,12 @@
+h1 {
+    margin: 4px 0px 0px;
+    font-weight: 600;
+    margin-bottom: -25px;
+}
+h2 {
+    font: 14px roboto, serif;
+}
+.card-panel {
+    width: 200px;
+    height: 200px;
+}
