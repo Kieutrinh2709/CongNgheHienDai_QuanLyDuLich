@@ -1,0 +1,41 @@
+.section-contact h5{
+    margin-bottom: 30px;
+    text-align: center;
+}
+h1 {
+    margin-bottom: -25px;
+    text-align: center;
+    font-size: 15px;
+}
+p {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section .btn{
+    text-align: center;
+    margin-left: 200px;
+}
+.card-panel1 {
+    width: 522px;
+    height: 220px;
+}
+.bg-btn {
+    border: none;
+}
+h3 {
+    font-size: 30px;
+    text-align: center;
+}
+.mg-bot15 {
+    font-size: 15px;
+}
+.other-mobile {
+    background-color: #EEEEEE;
+    margin-top: -20px;
+    margin-left: 10px;
+}
+.other-name {
+    font-size: 20px;
+    text-align: left 10px;
+}
