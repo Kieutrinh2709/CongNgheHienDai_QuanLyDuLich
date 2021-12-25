@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import Banner from './components/Banner/Banner';
-import Footer from './components/Footer/Footer';
-import Explore from './components/Explore/Explore';
-import Adventure from './components/Adventure/Adventure';
-import Newspaper from './components/Newspaper/Newspaper';
-import Gallery from './components/Gallery/Gallery';
-import Contact from './components/Contact/Contact';
+import Navbar from './container/Layout/Navbar/Navbar';
+import Banner from './container/Layout/Banner/Banner';
+import Footer from './container/Layout/Footer/Footer';
+import Explore from './container/Layout/Explore/Explore';
+import Tourtrongnuoc from './container/Layout/Adventure/Adventure';
+import Tintuc from './container/Layout/Blog/Blog';
+import Gallery from './container/Layout/Gallery/Gallery';
+import Contact from './container/Layout/Contact/Contact';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
@@ -17,8 +17,8 @@ function App() {
       <Navbar />
       <Banner />
       <Explore/>
-      <Adventure />
-      <Newspaper/>
+      <Tourtrongnuoc/>
+      <Tintuc/>
       <Gallery />
       <Contact />
       <Footer />
