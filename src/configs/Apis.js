@@ -13,7 +13,8 @@ export let endpoints = {
     "register": "/users/",
     "comments": (tourId) => `/tours/${tourId}/comments/`,
     "add-comment": (tourId) => `/tours/${tourId}/add-comment/`,
-    "rating": (tourId) => `/tours/${tourId}/rating/`
+    "rating": (tourId) => `/tours/${tourId}/rating/`,
+    "book": `/bill/`
 }
 
 export default axios.create({

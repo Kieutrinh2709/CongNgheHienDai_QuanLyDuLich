@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Col, Form, Row, Spinner, Image, Button } from "react-bootstrap"
+import { Col, Form, Row, Spinner, Image, Button, } from "react-bootstrap"
 import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import Apis, { endpoints } from "../../configs/Apis"
@@ -8,6 +8,7 @@ import cookies from 'react-cookies'
 import renderHTML from 'react-render-html';
 import Rating from "react-rating";
 import Moment from "react-moment"
+import Modal from 'antd/lib/modal/Modal';
 
 
 export default function TourDetail() {
@@ -16,6 +17,10 @@ export default function TourDetail() {
     const [commentDescription, setCommentDescription] = useState(null)
     const [rating, setRating] = useState(0)
     const [changed, setChanged] = useState(1)
+    const [visible, setVisible] = useState(false)
+    const [adultNum, setAdultNum] = useState(1)
+    const [childNum, setChildNum] = useState(0)
+    const [total, setTotal] = useState()
     let { tourId } = useParams()
     let user = useSelector(state => state.user.user)
     let loadComments = async () => {
@@ -38,14 +43,13 @@ export default function TourDetail() {
                     }
 
                 })
-                setTour(res.data)
                 setRating(res.data.rate)
+                setTour(res.data)
             } catch (err) {
                 console.error(err)
             }
 
         }
-
         loadTour()
     }, [changed])
 
@@ -59,7 +63,7 @@ export default function TourDetail() {
                 headers: {
                     "Authorization": `Bearer ${cookies.load("access_token")}`
                 }
-            }).then((rs)=>{
+            }).then((rs) => {
                 loadComments();
             })
 
@@ -82,7 +86,8 @@ export default function TourDetail() {
                         "Authorization": `Bearer ${cookies.load("access_token")}`
                     }
                 })
-                console.info(res.data)
+                setRating(res.data.rate)
+                console.info(res)
             } catch (err) {
                 console.error(err)
             }
@@ -110,7 +115,46 @@ export default function TourDetail() {
         r = <Rating initialRating={rating} onClick={saveRating} />
     }
 
-
+    const bookTour = () => {
+        
+        setVisible(true);
+    }
+    const handleOk = async () => {
+    let res = await Apis.post(endpoints['book'], {
+            "user": cookies.load('user').id,
+            "tour": tourId,
+            "total_price": total
+        }, {
+            headers: {
+                "Authorization": `Bearer ${cookies.load("access_token")}`
+            }
+        })
+        setVisible(false);
+    }
+    const handleCancel = () => {
+        setVisible(false);
+    }
+    const changeAdult = (e)=>{
+    
+    setAdultNum(e.target.value); changeTotal(e.target.value, childNum); 
+    }
+    const changeChild = (e)=>{
+     
+    setChildNum(e.target.value); changeTotal(adultNum, e.target.value);
+    }
+    const changeTotal=(a, b)=>{
+        if(a == null && b == null){
+            setTotal(0)
+        }
+        else if(a == null){
+            setTotal( b*tour.price_child)
+        }else if(b == null){
+            setTotal(a*tour.price_adult )
+        }
+        else{
+            setTotal(a*tour.price_adult + b*tour.price_child)
+        }
+    }
     return (
         <>
             <h3 className="text-center text-primary">Chi tiết tour</h3>
@@ -125,7 +169,7 @@ export default function TourDetail() {
                     <p>Giá người lớn: {tour.price_adult}</p>
                     <p>Giá trẻ em : {tour.price_child}</p>
                     <p>Lưu ý: {renderHTML(tour.note)}</p>
-                    <Button color="primary" style={{ marginBottom: "20px" }} >Book</Button>
+                    <Button color="primary" style={{ marginBottom: "20px" }} onClick={() => setVisible(true)} >Book</Button>
                     <p >
                         {r}
                     </p>
@@ -149,7 +193,41 @@ export default function TourDetail() {
                 </Col>
             </Row>)}
 
+            <Modal
+                title="Đặt tour"
+                visible={visible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <h4 className="text-center text-primary" style ={{marginBottom: "20px"}}>Thông tin liên lạc</h4>
+                <div className="form-group">
+                    <label htmlFor="">Email(*)</label>
+                    <input type="text" value={cookies.load('user').email}
+                        className="form-control" name="name" disabled aria-describedby="helpId" placeholder="" />
+                </div>
+                <h4 className="text-center text-primary" style ={{marginBottom: "20px"}}>Số người</h4>
+                <div className="row">
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            <label htmlFor="">Người lớn</label>
+                            <input type="number" onChange={changeAdult}
+                                className="form-control" value={adultNum} name="nguoilon" min="1" aria-describedby="helpId" placeholder="" />
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            <label htmlFor="">Trẻ em</label>
+                            <input type="number" onChange={changeChild}
+                                className="form-control" value={childNum} name="treem" min="0" aria-describedby="helpId" placeholder="" />
+                        </div>
+                    </div>
+                    
+                </div>
+                {/* <h4 className="text-center text-primary">Thành tiền</h4> */}
 
+                <p >Thành tiền: <strong className="text-danger"> {total?total:""}</strong></p>
+
+            </Modal>
         </>
     )
 }

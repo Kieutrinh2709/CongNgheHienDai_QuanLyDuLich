@@ -97,7 +97,7 @@ export default function BlogDetail() {
                 <Col md={8} xs={12}>
                     <p>{blog.title}</p>
                     <p>Ngày tạo: {new Date(blog.created_date).toDateString()}</p>
-                    <p>Ngày cập nhật: {blog.update_date}</p>
+                    <p>Ngày cập nhật: {new Date(blog.update_date).toDateString()}</p>
 
                 </Col>
             </Row>

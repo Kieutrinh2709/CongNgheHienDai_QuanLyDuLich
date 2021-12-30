@@ -6,7 +6,6 @@ import { useDispatch,useSelector } from 'react-redux'
 import Apis, { endpoints } from "../configs/Apis";
 import { loginUser } from "../actionCreators/UserCreators";
 import cookies from 'react-cookies'
-import { message } from 'antd';
 import Layout from '../layout/Layout';
 export default function Login() {
     const {user} = useSelector(state => state.user)
