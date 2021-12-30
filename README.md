@@ -3,7 +3,7 @@ Bài tập lớn môn học LẬP TRÌNH CÁC CÔNG NGHỆ HIỆN ĐẠI
 
  - Sử dụng công nghệ ReactJs và Django
 
- - Tình trạng: đang triển khai
+ - Tình trạng: đã hoàn thành
 
 Giảng viên hướng dẫn:
 
